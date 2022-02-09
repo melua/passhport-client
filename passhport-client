@@ -1,0 +1,38 @@
+#!/bin/sh
+CONF="/etc/passhport/passhport-client.conf"
+
+# Manual
+usage() { echo "usage: passhport-client -l target [-p port] host [command]" 1>&2; exit 1; }
+abort() { echo "abort: missing property $1 in $CONF" 1>&2; exit 1; }
+
+# Retrieve options
+while getopts ":l:p:" arg; do
+    case $arg in
+        l) TARGET=$OPTARG;;
+        p) PORT=$OPTARG;;
+        *) ;;
+    esac
+done
+
+# Retrieve parameters
+shift $(($OPTIND - 1))
+HOST=$1
+COMMAND=$2
+
+# Check mandatories
+if [ -z $TARGET ] || [ -z $HOST ]; then
+    usage
+fi
+
+# Retrieve identity
+IDENTITY=`grep IdentityFile $CONF | cut -d' ' -f2`
+[ -z $IDENTITY ] && abort IdentityFile
+
+# Resolve SFTP subsystem
+if [ "$COMMAND" = "sftp" ]; then
+    COMMAND=`grep SftpSubsystem $CONF | cut -d' ' -f2`
+    [ -z $COMMAND ] && abort SftpSubsystem
+fi
+
+# Execute custom ssh
+ssh -i $IDENTITY -l passhport $HOST "$TARGET $COMMAND"

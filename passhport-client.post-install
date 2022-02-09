@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Generate default key
+if ! [ -e /etc/passhport/id_ed25519 ]; then
+    ssh-keygen -q -t ed25519 -P '' -f /etc/passhport/id_ed25519
+fi
+
+exit 0
