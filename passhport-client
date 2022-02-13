@@ -28,11 +28,15 @@ fi
 IDENTITY=`grep IdentityFile $CONF | cut -d' ' -f2`
 [ -z $IDENTITY ] && abort IdentityFile
 
+# Force terminal allocation by default
+TERMALLOC='-t'
+
 # Resolve SFTP subsystem
 if [ "$COMMAND" = "sftp" ]; then
     COMMAND=`grep SftpSubsystem $CONF | cut -d' ' -f2`
     [ -z $COMMAND ] && abort SftpSubsystem
+    TERMALLOC='-T'
 fi
 
 # Execute custom ssh
-ssh -i $IDENTITY -l passhport $HOST "$TARGET $COMMAND"
+ssh $TERMALLOC -i $IDENTITY -l passhport $HOST "$TARGET $COMMAND"
