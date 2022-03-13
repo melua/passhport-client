@@ -1,12 +1,16 @@
 # passhport-client
 OpenBSD's SSH client compatible with PaSSHport tunneling
 
-## Setup, build and install
+## Setup and build
 ```
 apk add alpine-sdk
 abuild checksum
 abuild -r
-apk add passhport-client-1.0-r0.apk
+```
+
+## Install
+```
+apk add --allow-untrusted passhport-client-1.X-rX.apk
 ```
 
 ## Usage

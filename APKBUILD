@@ -1,7 +1,7 @@
 # Maintainer: Melua <alpine-devel@melua.fr>
 pkgname=passhport-client
-pkgver=1.0
-pkgrel=2
+pkgver=1.1
+pkgrel=0
 pkgdesc="OpenBSD's SSH client compatible with PaSSHport tunneling"
 url="https://www.passhport.org"
 arch="noarch"
@@ -17,6 +17,6 @@ package() {
 }
 
 sha512sums="
-0354cdef5c1743d592847e85268710b3e8817a0ff5750bb9637db3546c0d526891d9974fa925bd3902908cef2746b8fad06fcf4b731315a0caf32249066293a8  passhport-client
-553f7adbe376524ed5767334390bdba98f6217a9f3ffbfd20f9cf2df398cb446a6bccf844b00bb6b140d5373ae55c7d2df1116330bd5996a78ed11f5fbd34744  passhport-client.conf
+98c7cec09dc27d2d53b9b1691b0c5f5d1bfffa19e741987c6192d0fa80ecfcf9942c1c862ce3131798382161d6a92afdffdde25545add7016e421393ffa2fc53  passhport-client
+482ca4f96f0f429c09b862bcfb78a134310dced71cb68cdd3ce22ceaec225f5164dd1603ea255975fe960b8a08afe7de7019f830704d463ab042f0049b052821  passhport-client.conf
 "

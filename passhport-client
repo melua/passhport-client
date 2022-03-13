@@ -28,18 +28,25 @@ fi
 IDENTITY=`grep IdentityFile $CONF | cut -d' ' -f2`
 [ -z $IDENTITY ] && abort IdentityFile
 
-# Force terminal allocation by default
-TERMALLOC='-t'
-
-# Resolve SFTP subsystem
-if [ "$COMMAND" = "sftp" ]; then
-    COMMAND=`grep SftpSubsystem $CONF | cut -d' ' -f2`
-    [ -z $COMMAND ] && abort SftpSubsystem
-    TERMALLOC='-T'
-fi
-
 # Port
 [ -z $PORT ] && PORT="22"
 
+# SendEnv setting
+SENDENV=`grep SendEnvTarget $CONF | cut -d' ' -f2`
+
 # Execute custom ssh
-ssh $TERMALLOC -i $IDENTITY -p $PORT -l passhport $HOST "$TARGET $COMMAND"
+if [ "$SENDENV" = "True" ]; then
+	PASSHPORT_TARGET=$TARGET ssh -i $IDENTITY -p $PORT -o "SendEnv PASSHPORT_TARGET" -l passhport $HOST
+else
+	# Force terminal allocation by default
+	TERMALLOC='-t'
+
+	# Resolve SFTP subsystem
+	if [ "$COMMAND" = "sftp" ]; then
+	    COMMAND=`grep SftpSubsystem $CONF | cut -d' ' -f2`
+	    [ -z $COMMAND ] && abort SftpSubsystem
+	    TERMALLOC='-T'
+	fi
+
+	ssh $TERMALLOC -i $IDENTITY -p $PORT -l passhport $HOST "$TARGET $COMMAND"
+fi
